@@ -1,0 +1,52 @@
+---
+import BaseHead from '../../../components/BaseHead.astro';
+import Footer from '../../../components/Footer.astro';
+import Header from '../../../components/Header.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../../consts';
+import BlogPostItem from '../../../components/BlogPostItem.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+
+  const uniqueTags = [...new Set(allPosts.map((post) => (post.data.tags ?? [])).flat())];
+
+  return uniqueTags.map((tag) => {
+    const filteredPosts = allPosts.filter(post => post.data.tags?.includes(tag));
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={tag + " - Blog"} description={SITE_DESCRIPTION} />
+        <style>
+            ul {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 2rem;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+        </style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<p>These are all posts tagged with <code>{tag}</code>. Click <a href="/blog">here</a> to go back to the main list.</p>
+            <ul>
+                {posts.map(post => <BlogPostItem id={post.id} {...post.data}/>)}
+            </ul>
+		</main>
+		<Footer />
+	</body>
+</html>

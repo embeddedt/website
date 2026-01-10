@@ -2,6 +2,7 @@
 title: 'Why I am starting a blog in 2026'
 description: 'The pitfalls of the modern Internet'
 pubDate: 'Jan 03 2026'
+tags: ['philosophical']
 ---
 
 As we start a new year, I have decided to finally create and publish my personal
