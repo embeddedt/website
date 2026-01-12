@@ -1,15 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION } from '../../consts';
 import BlogPostItem from '../../components/BlogPostItem.astro';
+import { getAllBlogTags, getBlogPostsInOrder } from '../../lib/blog';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-const tags = [...new Set(posts.map((post) => (post.data.tags ?? [])).flat())];
+const posts = await getBlogPostsInOrder();
+const tags = await getAllBlogTags();
 ---
 
 <!doctype html>
