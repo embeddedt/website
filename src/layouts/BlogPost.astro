@@ -78,7 +78,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 							}
 						</div>
 						<h1>{title}</h1>
-						{tags && tags.length > 0 && <div class="tags">Tags: {tags.flatMap(tag => [<a href={`/blog/tags/${tag}`}>{tag}</a>, ","]).slice(0, -1)}</div>}
+						{tags && tags.length > 0 && <div class="tags">Tags: {tags.flatMap(tag => [<a href={`/blog/tags/${tag}`}>{tag}</a>, ", "]).slice(0, -1)}</div>}
 						<hr />
 					</div>
 					<slot />
