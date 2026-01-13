@@ -4,14 +4,26 @@ interface Props {
 }
 
 const { date } = Astro.props;
+const friendlyAbsoluteString = date.toLocaleDateString('en-us', {
+	year: 'numeric',
+	month: 'short',
+	day: 'numeric',
+});
+const showRelativeDate = Date.now() <= date.getTime() + (1000 * 60 * 60 * 24 * 7); // 1 week
 ---
 
-<time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
+<time data-formatted-date={showRelativeDate ? "1" : undefined} datetime={date.toISOString()} title={friendlyAbsoluteString}>
+	{friendlyAbsoluteString}
+</time>
+
+{showRelativeDate && <script>
+	import RelativeTime from '@yaireo/relative-time';
+
+	const formattedDates = document.querySelectorAll<HTMLTimeElement>("time[data-formatted-date]");
+	if (formattedDates.length > 0) {
+		const relTime = new RelativeTime()
+		formattedDates.forEach(date => {
+			date.textContent = relTime.from(new Date(date.dateTime));
 		})
 	}
-</time>
+</script>}
