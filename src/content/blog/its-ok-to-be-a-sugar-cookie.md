@@ -1,6 +1,6 @@
 ---
 title: "Why it's OK to be a 'sugar cookie'"
-description: "Alternatively, why striving for perfection rarely gives the best results"
+description: "Reframing your mindset around hardships"
 tags: ['philosophical','mcraven-speech']
 pubDate: '2026-01-11'
 ---
