@@ -1,0 +1,53 @@
+---
+interface Props {
+    text: string;
+}
+
+
+const { text } = Astro.props;
+---
+<span data-typewriter-text={text}></span>
+<noscript>
+    <span>{text}</span>
+    <style>
+        span[data-typewriter-text] {
+            display: none;
+        }
+    </style>
+</noscript>
+<script>
+    import { sleep } from '@/lib/sleep';
+    const typewriters = document.querySelectorAll<HTMLElement>("[data-typewriter-text]");
+    const TYPING_SPEED = 200;
+
+    async function runTypewriterAnimation(tw: HTMLElement) {
+        const fullText = tw.getAttribute("data-typewriter-text") ?? "";
+        let currentText = "";
+        while (currentText.length < fullText.length) {
+            await sleep(TYPING_SPEED);
+            currentText = currentText + fullText[currentText.length];
+            tw.textContent = currentText;
+        }
+        await sleep(5000);
+        tw.classList.add("tw-animation-complete");
+    }
+
+    for (const tw of typewriters) {
+        runTypewriterAnimation(tw);
+    }
+</script>
+<style>
+    @keyframes typewriter-blink {
+        50% {visibility: hidden;}
+        100% {visibility: visible;}
+    }
+    span[data-typewriter-text]::after {
+        content: '_';
+        display: inline;
+        visibility: hidden;
+        animation: typewriter-blink 1s linear 500ms infinite forwards;
+    }
+    span[data-typewriter-text].tw-animation-complete::after {
+        display: none;
+    }
+</style>

@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import Typewriter from '../components/Typewriter.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
@@ -13,7 +14,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	<body>
 		<Header />
 		<main>
-			<h1>Hello world!</h1>
+			<h1><Typewriter text="Hello world, I'm embeddedt!"/></h1>
 			<p>
 				Welcome to my website, which is still heavily work-in-progress.
 				Feel free to have a look at my
