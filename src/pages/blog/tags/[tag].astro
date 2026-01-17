@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 
   const uniqueTags = await getAllBlogTags();
 
-  return uniqueTags.map((tag) => {
+  return uniqueTags.map(t => t.name).map((tag) => {
     const filteredPosts = allPosts.filter(post => post.data.tags?.includes(tag));
     return {
       params: { tag },

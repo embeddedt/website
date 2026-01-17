@@ -9,7 +9,25 @@ export async function getBlogPostsInOrder() {
 
 export async function getAllBlogTags() {
     const posts = await getCollection("blog");
-    const tags = [...new Set(posts.map((post) => (post.data.tags ?? [])).flat())];
-    tags.sort();
-    return tags;
+    const tagMap = new Map<string, number>();
+    for (const post of posts) {
+        if (post.data.tags) {
+            for (const tag of post.data.tags) {
+                const prevCount = tagMap.get(tag) ?? 0;
+                tagMap.set(tag, prevCount + 1);
+            }
+        }
+    }
+    const tagList = Array.from(tagMap.entries()).map(e => ({
+        name: e[0],
+        count: e[1]
+    }));
+    tagList.sort((a, b) => {
+        const diff = b.count - a.count;
+        if (diff != 0) {
+            return diff;
+        }
+        return a.name.localeCompare(b.name);
+    });
+    return tagList;
 }

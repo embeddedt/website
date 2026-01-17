@@ -50,7 +50,7 @@ const tags = await getAllBlogTags();
 			<section>
 				<h3 id="tags-list">Tags</h3>
 				<ul>
-					{tags.map(tag => (<li><a href={`/blog/tags/${tag}`}>{tag}</a></li>))}
+					{tags.map(tag => (<li><a href={`/blog/tags/${tag.name}`}>{tag.name}</a> ({tag.count})</li>))}
 				</ul>
 			</section>
 		</main>
