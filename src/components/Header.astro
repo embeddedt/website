@@ -28,7 +28,12 @@ import SocialLinks from './SocialLinks.astro';
 		margin: 0;
 		padding: 0 1em;
 		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+		box-shadow: 0 2px 8px rgba(var(--heading-primary), 5%);
+	}
+	@media (prefers-color-scheme: dark) {
+		header {
+			background: #222;
+		}
 	}
 	h2 {
 		margin: 0;
@@ -46,7 +51,7 @@ import SocialLinks from './SocialLinks.astro';
 	}
 	nav a {
 		padding: 1em 0.5em;
-		color: var(--black);
+		color: var(--heading-primary);
 		border-bottom: 4px solid transparent;
 		text-decoration: none;
 	}

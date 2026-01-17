@@ -38,18 +38,24 @@ const projects = (await getCollection('projects')).sort(
 
             .project-cards li {
                 flex: 1;
-                border: 1px solid black;
+                border: 1px solid rgba(var(--gray), 10%);
                 border-radius: var(--project-card-border-radius);
                 background-color: white;
-                box-shadow: 0 0 4px;
+                box-shadow: 0 0 4px rgba(var(--gray), 25%);
                 transition: box-shadow 0.1s linear;
                 width: 100%;
                 max-width: 300px;
                 margin: 0.5em;
             }
 
+            @media (prefers-color-scheme: dark) {
+                .project-cards li {
+                    background-color: #111;
+                }
+            }
+
             .project-cards li:hover {
-                box-shadow: 0 0 8px;
+                box-shadow: 0 0 8px rgba(var(--gray), 50%);
             }
 
             .project-cards li a {
@@ -91,6 +97,12 @@ const projects = (await getCollection('projects')).sort(
                 vertical-align: middle;
                 display: inline-block;
                 padding: 2px;
+            }
+
+            @media (prefers-color-scheme: dark) {
+                .role-pill {
+                    background-color: #333;
+                }
             }
         </style>
     </head>
