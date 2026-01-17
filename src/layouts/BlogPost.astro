@@ -52,6 +52,9 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 			.last-updated-on {
 				font-style: italic;
 			}
+			.description {
+				margin-bottom: 1em;
+			}
 			.tags {
 				font-style: italic;
 			}
@@ -78,6 +81,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 							}
 						</div>
 						<h1>{title}</h1>
+						{description && <div class="description">{description}</div>}
 						{tags && tags.length > 0 && <div class="tags">Tags: {tags.flatMap(tag => [<a href={`/blog/tags/${tag}`}>{tag}</a>, ", "]).slice(0, -1)}</div>}
 						<hr />
 					</div>
