@@ -120,6 +120,7 @@ blockquote {
 	padding: 0 0 0 20px;
 	margin: 0;
 	font-size: 1.333em;
+	font-style: italic;
 }
 hr {
 	border: none;
