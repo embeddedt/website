@@ -1,0 +1,119 @@
+---
+import BaseHead from '@/components/BaseHead.astro';
+import Header from '@/components/Header.astro';
+---
+
+<html lang="en">
+    <head>
+        <BaseHead
+            title="GitHub outage tracker"
+            description="Humorous page for tracking GitHub's (in)stability"
+        />
+        <style>
+            #time-since-outage {
+                text-align: center;
+                line-height: 1.1;
+                font-weight: bold;
+                display: none;
+            }
+            #time-count {
+                font-size: 10em;
+            }
+            #time-unit {
+                font-size: 3em;
+            }
+            .suffix {
+                margin-top: 1rem;
+            }
+            #outages {
+                text-align: left;
+                margin-top: 8rem;
+                line-height: 1.3;
+            }
+        </style>
+    </head>
+    <body>
+        <Header/>
+        <main>
+            <noscript>
+                Unfortunately, this page requires JavaScript to work.
+                You should probably just read
+                <a href="https://www.githubstatus.com">githubstatus.com</a> instead.
+            </noscript>
+            <div id="time-since-outage">
+                <div class="prefix">It has been</div>
+                <div id="time-count"></div>
+                <div id="time-unit"></div>
+                <div class="suffix">since the <a id="outage-ref" target="_blank">last GitHub outage</a>.</div>
+                <div id="outages">
+                    <h4>Recent outages</h4>
+                    <ul>
+                    </ul>
+                </ul>
+            </div>
+            <script>
+                import RelativeTime from '@yaireo/relative-time';
+
+                interface IncidentsResponse {
+                    incidents: {
+                        created_at: string;
+                        resolved_at: string|null;
+                        shortlink: string;
+                        name: string;
+                    }[];
+                }
+                const timeCount = document.getElementById("time-count");
+                const timeUnit = document.getElementById("time-unit");
+                const timeSinceOutageContainer = document.getElementById("time-since-outage");
+                const outageRef: HTMLAnchorElement|null = document.getElementById("outage-ref") as HTMLAnchorElement;
+                const outages = document.querySelector("#outages > ul");
+                if (timeCount && timeUnit && timeSinceOutageContainer && outages && outageRef) {
+                    fetch("https://www.githubstatus.com/api/v2/incidents.json", {
+                        headers: {
+                            "Accept": "application/json"
+                        }
+                    }).then(res => res.json()).then((res: IncidentsResponse) => {
+                        const incidents = res.incidents.map(i => ({
+                            ...i,
+                            resolved_at: i.resolved_at ? new Date(i.resolved_at) : new Date()
+                        }));
+                        incidents.sort((a, b) => b.resolved_at.getTime() - a.resolved_at.getTime());
+                        const dateOfMostRecentIncident = incidents[0].resolved_at;
+                        const minutesSinceLastIncident = Math.floor((Date.now() - dateOfMostRecentIncident.getTime()) / 1000 / 60);
+                        if (minutesSinceLastIncident < 60) {
+                            timeCount.textContent = minutesSinceLastIncident.toString();
+                            timeUnit.textContent = "minutes";
+                        } else if (minutesSinceLastIncident < 48 * 60) {
+                            timeCount.textContent = Math.floor(minutesSinceLastIncident / 60).toString();
+                            timeUnit.textContent = "hours";
+                        } else if (minutesSinceLastIncident < 21 * 24 * 60) {
+                            timeCount.textContent = Math.floor(minutesSinceLastIncident / (24 * 60)).toString();
+                            timeUnit.textContent = "days";
+                        } else {
+                            timeCount.textContent = Math.floor(minutesSinceLastIncident / (7 * 24 * 60)).toString();
+                            timeUnit.textContent = "weeks";
+                        }
+                        outageRef.href = incidents[0].shortlink;
+                        const relTime = new RelativeTime()
+                        for (let i = 0; i < Math.min(incidents.length, 7); i++) {
+                            const incident = incidents[i];
+                            const li = document.createElement("li");
+                            const a = document.createElement("a");
+                            a.href = incident.shortlink;
+                            a.textContent = incident.name;
+                            a.target = "_blank";
+                            li.appendChild(a);
+                            const span = document.createElement("span");
+                            span.textContent = ` (${incident.resolved_at ? relTime.from(new Date(incident.resolved_at)) : "now"})`;
+                            li.appendChild(span);
+                            outages.appendChild(li);
+                        }
+                        timeSinceOutageContainer.style.display = "block";
+                    });
+                } else {
+                    console.error("Elements missing");
+                }
+            </script>
+        </main>
+    </body>
+</html>
