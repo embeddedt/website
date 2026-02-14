@@ -93,6 +93,10 @@ import Header from '@/components/Header.astro';
                             timeCount.textContent = Math.floor(minutesSinceLastIncident / (7 * 24 * 60)).toString();
                             timeUnit.textContent = "weeks";
                         }
+                        // Simple trick to handle singular values correctly
+                        if (timeCount.textContent == "1") {
+                            timeUnit.textContent = timeUnit.textContent.substring(0, timeUnit.textContent.length - 1);
+                        }
                         outageRef.href = incidents[0].shortlink;
                         const relTime = new RelativeTime()
                         for (let i = 0; i < Math.min(incidents.length, 7); i++) {
