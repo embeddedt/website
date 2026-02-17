@@ -1,6 +1,15 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+// Make the date roughly 9am in Eastern time
+const makeLocalDate = (str: string) => {
+	const date = new Date(str);
+	date.setUTCHours(14);
+	date.setUTCMinutes(0);
+	date.setUTCSeconds(0);
+	return date;
+}
+
 const blog = defineCollection({
 	// Load Markdown and MDX files in the `src/content/blog/` directory.
 	loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
@@ -10,8 +19,8 @@ const blog = defineCollection({
 			title: z.string(),
 			description: z.string(),
 			// Transform string to Date object
-			pubDate: z.coerce.date(),
-			updatedDate: z.coerce.date().optional(),
+			pubDate: z.string().transform(makeLocalDate),
+			updatedDate: z.string().transform(makeLocalDate).optional(),
 			heroImage: image().optional(),
 			tags: z.array(z.string()).optional()
 		}),
