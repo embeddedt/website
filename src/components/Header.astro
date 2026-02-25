@@ -2,6 +2,7 @@
 import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 import SocialLinks from './SocialLinks.astro';
+import { headerLinks } from '../lib/headerlinks';
 ---
 
 <header>
@@ -13,10 +14,7 @@ import SocialLinks from './SocialLinks.astro';
 			</a>
 		</h2>
 		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/projects">Projects</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
+            {headerLinks.map(l => (<HeaderLink href={l.url}>{l.name}</HeaderLink>))}
 		</div>
 		<div class="social-links-container">
 			<SocialLinks/>
@@ -36,7 +34,7 @@ import SocialLinks from './SocialLinks.astro';
 		}
 	}
 	h2 {
-		margin: 0;
+		margin: 0.5em 0;
 		font-size: 1em;
 		border-bottom: 4px solid transparent;
 	}
@@ -74,6 +72,15 @@ import SocialLinks from './SocialLinks.astro';
 			display: none;
 		}
 	}
+
+    @media (max-width: 400px) {
+        .internal-links {
+            display: none;
+        }
+        nav {
+            justify-content: center;
+        }
+    }
 
 	.embeddedt-header-icon {
 		width: 2em;

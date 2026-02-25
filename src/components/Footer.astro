@@ -1,11 +1,16 @@
 ---
+import FooterLink from "./FooterLink.astro";
 import SocialLinks from "./SocialLinks.astro";
+import { headerLinks } from "@/lib/headerlinks";
 
 const today = new Date();
 ---
 
 <footer>
 	&copy; {today.getFullYear()} embeddedt. All rights reserved.
+    <div class="footer-links">
+        {headerLinks.map(h => <FooterLink href={h.url}>{h.name}</FooterLink>)}
+    </div>
 	<div class="social-container">
 		<SocialLinks/>
 	</div>
@@ -20,4 +25,14 @@ const today = new Date();
 	.social-container {
 		margin-top: 1em;
 	}
+
+    .footer-links {
+        padding: 1em 0;
+    }
+
+    @media (min-width: 401px) {
+        .footer-links {
+            display: none;
+        }
+    }
 </style>
