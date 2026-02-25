@@ -6,15 +6,7 @@ interface Props {
 
 const { text } = Astro.props;
 ---
-<span data-typewriter-text={text}></span>
-<noscript>
-    <span>{text}</span>
-    <style>
-        span[data-typewriter-text] {
-            display: none;
-        }
-    </style>
-</noscript>
+<div class="typewriter-block"><span class="full-typewriter-text">{text}</span><span data-typewriter-text={text}></span></div>
 <script>
     import { sleep } from '@/lib/sleep';
     const typewriters = document.querySelectorAll<HTMLElement>("[data-typewriter-text]");
@@ -41,6 +33,21 @@ const { text } = Astro.props;
         50% {visibility: hidden;}
         100% {visibility: visible;}
     }
+
+    .full-typewriter-text {
+        visibility: hidden;
+    }
+
+    .typewriter-block {
+        position: relative;
+    }
+
+    span[data-typewriter-text] {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
     span[data-typewriter-text]::after {
         content: '_';
         display: inline;
@@ -51,3 +58,14 @@ const { text } = Astro.props;
         display: none;
     }
 </style>
+<noscript>
+    <style>
+        span[data-typewriter-text] {
+            display: none;
+        }
+        .full-typewriter-text {
+            /* !important needed to prioritze this over Astro's style with attribute selector */
+            visibility: visible !important;
+        }
+    </style>
+</noscript>
