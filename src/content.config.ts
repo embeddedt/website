@@ -1,12 +1,14 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-// Make the date roughly 9am in Eastern time
 const makeLocalDate = (str: string) => {
 	const date = new Date(str);
-	date.setUTCHours(14);
-	date.setUTCMinutes(0);
-	date.setUTCSeconds(0);
+	if (!str.includes("T")) {
+		// Make the date roughly 9am in Eastern time
+		date.setUTCHours(14);
+		date.setUTCMinutes(0);
+		date.setUTCSeconds(0);
+	}
 	return date;
 }
 
