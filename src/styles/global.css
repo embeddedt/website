@@ -22,7 +22,7 @@
 		--heading-primary: 240, 237, 230;
 		--gray: 156, 165, 169;
 		--gray-background: 26, 22, 15;
-		--text-main: 221, 214, 210;
+		--text-main: 210, 210, 210;
 		--accent: #718fbf;
 		--gray-gradient: rgba(var(--gray-background), 50%), #000;
 	}
