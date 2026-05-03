@@ -30,7 +30,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 				box-shadow: var(--box-shadow);
 			}
 			.prose {
-				width: 720px;
+				width: 900px;
 				max-width: calc(100% - 2em);
 				margin: auto;
 				padding: 1em;
@@ -60,6 +60,28 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 			}
 			.prose :global(.footnotes) {
 				border-top: 2px solid rgb(var(--gray));
+			}
+			.prose :global(.toc) {
+				background-color: #222;
+				display: inline-block;
+				padding: 1em;
+				margin-bottom: 1em;
+			}
+			.prose :global(.toc-title) {
+				font-weight: bold;
+			}
+			/* root toc list */
+			.prose :global(.toc) > :global(ol) {
+				padding-left: 1em;
+				margin-top: 0;
+			}
+			/* all toc lists */
+			.prose :global(.toc) :global(ol) {
+				list-style-type: circle;
+			}
+			.prose :global(.toc-scroll-to-top) {
+				font-size: 0.5em;
+				vertical-align: middle;
 			}
 		</style>
 	</head>

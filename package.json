@@ -20,5 +20,9 @@
     "astro-icon": "^1.1.5",
     "sharp": "^0.34.3",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "hast-util-heading-rank": "^3.0.0",
+    "rehype-toc": "^3.0.2"
   }
 }

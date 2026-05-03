@@ -119,13 +119,23 @@ blockquote {
 	border-left: 4px solid var(--accent);
 	padding: 0 0 0 20px;
 	margin: 0;
-	font-size: 1.333em;
+	font-size: 0.9em;
 	font-style: italic;
+}
+blockquote > pre {
+	padding: 0;
 }
 hr {
 	border: none;
 	border-top: 1px solid rgb(var(--gray-background));
 }
+
+@media (prefers-color-scheme: dark) {
+	hr {
+		border-top-color: #444;
+	}
+}
+
 @media (max-width: 720px) {
 	body {
 		font-size: 18px;
