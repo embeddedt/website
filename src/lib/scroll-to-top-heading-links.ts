@@ -22,8 +22,10 @@ export default function rehypeScrollToTopHeadingLink() {
 }
 
 export function tocCustomizer(tree: Root) {
+    let isTocEmpty = false;
     visit(tree, 'element', function (node, index, parent) {
         if (node.tagName == "nav") {
+            isTocEmpty = node.children.length == 1 && node.children.findIndex(n => n.type == "element" && n.tagName == "ol" && n.children.length == 0) != -1
             node.properties.id = "blog-post-table-of-contents";
             node.children.unshift({
                 type: 'element',
@@ -37,4 +39,7 @@ export function tocCustomizer(tree: Root) {
             return [SKIP]
         }
     })
+    if (isTocEmpty) {
+        return false; // stop it from being added
+    }
 }
