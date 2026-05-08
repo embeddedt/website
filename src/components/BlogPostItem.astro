@@ -29,19 +29,19 @@ const { id, title, description, pubDate, heroImage } = Astro.props;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
+        align-items: baseline;
     }
     .title {
         margin: 0;
         color: rgb(var(--heading-primary));
         line-height: 1;
-        flex-shrink: 0;
+        min-width: 0;
     }
     .date {
         margin: 0;
         color: rgb(var(--gray));
         flex-shrink: 0;
+        line-height: 1;
     }
     li a:hover h5,
     li a:hover .date,
@@ -63,9 +63,9 @@ const { id, title, description, pubDate, heroImage } = Astro.props;
         )}
         <div class="title-container">
             <h5 class="title">{title}</h5>
-            {pubDate && <p class="date">
+            {pubDate && <span class="date">
                 <FormattedDate date={pubDate} />
-            </p>}
+            </span>}
         </div>
 
         <div class="description">
